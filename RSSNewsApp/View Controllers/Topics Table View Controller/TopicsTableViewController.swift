@@ -11,11 +11,11 @@ import UIKit
 class TopicsTableViewController: UITableViewController {
     
     //MARK: - Properties
-    
-    
-    
+
+    var parcedData: [Dictionary<String, String>] = []
+
     //MARK: -
-    
+
     let rssResources: [RSSResource] = [
         RSSResource(url: URL(string: "https://lifehacker.com/rss")!, channelTitle: "Lifehacker"),
         RSSResource(url: URL(string: "http://feeds.feedburner.com/TechCrunch/")!, channelTitle: "TechCrunch")
@@ -25,40 +25,61 @@ class TopicsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        DispatchQueue.global(qos: .utility).async {
+            for resource in self.rssResources {
+                let rssParcer = RSSParser(resource: resource)
+                rssParcer.delegate = self
+                rssParcer.startParsing()
+            }
+        }
         
     }
 
     //MARK: - UITableViewDataSource methods
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return parcedData.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TopicTableViewCell", for: indexPath)
+        let currentData = parcedData[indexPath.row]
+        cell.textLabel?.text = currentData["title"]
         return cell
     }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
     }
-    */
+    
+    //MARK: - UITableViewDelegate methods
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let link = parcedData[indexPath.row]["link"]
+        let url = URL(string: link!)
+        
+        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+    }
+    
+    
+
+}
+
+//MARK: - RSSParserDelegate methods
+
+extension TopicsTableViewController: RSSParserDelegate {
+
+    func parsingWasFinished(_ parcer: RSSParser) {
+        parcedData += parcer.parcedData
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
 
 }

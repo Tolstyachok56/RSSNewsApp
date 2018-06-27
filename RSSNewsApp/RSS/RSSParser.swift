@@ -9,7 +9,7 @@
 import Foundation
 
 protocol RSSParserDelegate {
-    func parsingWasFinished()
+    func parsingWasFinished(_ parcer: RSSParser)
 }
 
 class RSSParser: NSObject {
@@ -77,7 +77,7 @@ extension RSSParser: XMLParserDelegate {
     }
     
     func parserDidEndDocument(_ parser: XMLParser) {
-        delegate?.parsingWasFinished()
+        self.delegate?.parsingWasFinished(self)
     }
     
     func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {

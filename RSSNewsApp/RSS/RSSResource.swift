@@ -8,9 +8,14 @@
 
 import Foundation
 
-struct RSSResource {
+class RSSResource {
     
     let url: URL
     let channelTitle: String
+    
+    init(url: URL, channelTitle: String) {
+        self.url = url
+        self.channelTitle = channelTitle
+    }
     
 }
