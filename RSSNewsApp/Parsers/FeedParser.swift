@@ -1,5 +1,5 @@
 //
-//  RSSParser.swift
+//  FeedParser.swift
 //  RSSNewsApp
 //
 //  Created by Виктория Бадисова on 27.06.2018.
@@ -8,38 +8,40 @@
 
 import Foundation
 
-protocol RSSParserDelegate {
-    func parsingWasFinished(_ parcer: RSSParser)
+protocol FeedParserDelegate {
+    func parsingWasFinished(_ parser: FeedParser)
+    
+    func itemParsingWasFinished(_ parser: FeedParser, item: FeedItem)
 }
 
-class RSSParser: NSObject {
+class FeedParser: NSObject {
     
     //MARK: - Properties
     
-    var parcedData = [Dictionary<String, String>]()
+    var parsedData = [FeedItem]()
     private var currentData = Dictionary<String, String>()
     private var currentElement = ""
     private var foundCharacters = ""
     
     //MARK: -
     
-    var delegate: RSSParserDelegate?
+    var delegate: FeedParserDelegate?
     
     //MARK: -
     
-    var resource: RSSResource
+    var feed: Feed
     
     //MARK: - Initialization
     
-    init(resource: RSSResource) {
-        self.resource = resource
+    init(feed: Feed) {
+        self.feed = feed
         super.init()
     }
     
     //MARK: - Methods
     
     func startParsing() {
-        let parcer = XMLParser(contentsOf: resource.url)
+        let parcer = XMLParser(contentsOf: self.feed.url)
         parcer?.delegate = self
         parcer?.parse()
     }
@@ -48,15 +50,17 @@ class RSSParser: NSObject {
 
 //MARK: - XMLParserDelegate methods
 
-extension RSSParser: XMLParserDelegate {
+extension FeedParser: XMLParserDelegate {
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         currentElement = elementName
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        if (currentElement == "title" && string != resource.channelTitle) || currentElement == "link" || currentElement == "pubDate" {
+        if (currentElement == "title" && string != feed.channelTitle) || currentElement == "link" || currentElement == "pubDate" || currentElement == "description" {
             foundCharacters += string
+        } else {
+            foundCharacters = ""
         }
     }
     
@@ -70,8 +74,11 @@ extension RSSParser: XMLParserDelegate {
             
             foundCharacters = ""
             
-            if currentElement == "pubDate" {
-                parcedData.append(currentData)
+            if currentData.count == 4 {
+                let feedItem = FeedItem(feed: feed, dictionary: currentData)
+                parsedData.append(feedItem)
+                delegate?.itemParsingWasFinished(self, item: feedItem)
+                currentData = [:]
             }
         }
     }

@@ -7,24 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04579BF620E4EC230049E325 /* TopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04579BF520E4EC230049E325 /* TopicTableViewCell.swift */; };
+		04579BF820E51BA40049E325 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04579BF720E51BA40049E325 /* FeedItem.swift */; };
+		04579BFC20E541500049E325 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04579BFB20E541500049E325 /* UIImageView.swift */; };
 		04F90E9620E3E86E00CDE216 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F90E9520E3E86E00CDE216 /* AppDelegate.swift */; };
 		04F90E9B20E3E86E00CDE216 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04F90E9920E3E86E00CDE216 /* Main.storyboard */; };
 		04F90E9D20E3E86F00CDE216 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04F90E9C20E3E86F00CDE216 /* Assets.xcassets */; };
 		04F90EA020E3E86F00CDE216 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04F90E9E20E3E86F00CDE216 /* LaunchScreen.storyboard */; };
-		04F90EAE20E3E92200CDE216 /* RSSParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F90EAD20E3E92200CDE216 /* RSSParser.swift */; };
-		04F90EB020E3E9C300CDE216 /* RSSResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F90EAF20E3E9C300CDE216 /* RSSResource.swift */; };
+		04F90EAE20E3E92200CDE216 /* FeedParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F90EAD20E3E92200CDE216 /* FeedParser.swift */; };
+		04F90EB020E3E9C300CDE216 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F90EAF20E3E9C300CDE216 /* Feed.swift */; };
 		04F90EB520E3F36A00CDE216 /* TopicsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F90EB420E3F36A00CDE216 /* TopicsTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04579BF520E4EC230049E325 /* TopicTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicTableViewCell.swift; sourceTree = "<group>"; };
+		04579BF720E51BA40049E325 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
+		04579BFB20E541500049E325 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		04F90E9220E3E86E00CDE216 /* RSSNewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSSNewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04F90E9520E3E86E00CDE216 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04F90E9A20E3E86E00CDE216 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		04F90E9C20E3E86F00CDE216 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04F90E9F20E3E86F00CDE216 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04F90EA120E3E86F00CDE216 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		04F90EAD20E3E92200CDE216 /* RSSParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSParser.swift; sourceTree = "<group>"; };
-		04F90EAF20E3E9C300CDE216 /* RSSResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSResource.swift; sourceTree = "<group>"; };
+		04F90EAD20E3E92200CDE216 /* FeedParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedParser.swift; sourceTree = "<group>"; };
+		04F90EAF20E3E9C300CDE216 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		04F90EB420E3F36A00CDE216 /* TopicsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -39,6 +45,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04579BF420E4EC070049E325 /* Topic Table View Cell */ = {
+			isa = PBXGroup;
+			children = (
+				04579BF520E4EC230049E325 /* TopicTableViewCell.swift */,
+			);
+			path = "Topic Table View Cell";
+			sourceTree = "<group>";
+		};
+		04579BF920E51BB20049E325 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				04F90EAF20E3E9C300CDE216 /* Feed.swift */,
+				04579BF720E51BA40049E325 /* FeedItem.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		04579BFA20E5413E0049E325 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				04579BFB20E541500049E325 /* UIImageView.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		04F90E8920E3E86E00CDE216 = {
 			isa = PBXGroup;
 			children = (
@@ -59,9 +90,11 @@
 			isa = PBXGroup;
 			children = (
 				04F90EA820E3E88200CDE216 /* Application Delegate */,
-				04F90EAC20E3E8F800CDE216 /* RSS */,
+				04F90EAC20E3E8F800CDE216 /* Parsers */,
+				04579BF920E51BB20049E325 /* Model */,
 				04F90EA720E3E88000CDE216 /* View Controllers */,
 				04F90EAA20E3E8CD00CDE216 /* Storyboards */,
+				04579BFA20E5413E0049E325 /* Extensions */,
 				04F90EAB20E3E8DD00CDE216 /* Resources */,
 				04F90EA920E3E88200CDE216 /* Supporting Files */,
 			);
@@ -109,19 +142,19 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		04F90EAC20E3E8F800CDE216 /* RSS */ = {
+		04F90EAC20E3E8F800CDE216 /* Parsers */ = {
 			isa = PBXGroup;
 			children = (
-				04F90EAF20E3E9C300CDE216 /* RSSResource.swift */,
-				04F90EAD20E3E92200CDE216 /* RSSParser.swift */,
+				04F90EAD20E3E92200CDE216 /* FeedParser.swift */,
 			);
-			path = RSS;
+			path = Parsers;
 			sourceTree = "<group>";
 		};
 		04F90EB320E3F35800CDE216 /* Topics Table View Controller */ = {
 			isa = PBXGroup;
 			children = (
 				04F90EB420E3F36A00CDE216 /* TopicsTableViewController.swift */,
+				04579BF420E4EC070049E325 /* Topic Table View Cell */,
 			);
 			path = "Topics Table View Controller";
 			sourceTree = "<group>";
@@ -197,8 +230,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04F90EB020E3E9C300CDE216 /* RSSResource.swift in Sources */,
-				04F90EAE20E3E92200CDE216 /* RSSParser.swift in Sources */,
+				04579BF620E4EC230049E325 /* TopicTableViewCell.swift in Sources */,
+				04F90EB020E3E9C300CDE216 /* Feed.swift in Sources */,
+				04579BFC20E541500049E325 /* UIImageView.swift in Sources */,
+				04579BF820E51BA40049E325 /* FeedItem.swift in Sources */,
+				04F90EAE20E3E92200CDE216 /* FeedParser.swift in Sources */,
 				04F90E9620E3E86E00CDE216 /* AppDelegate.swift in Sources */,
 				04F90EB520E3F36A00CDE216 /* TopicsTableViewController.swift in Sources */,
 			);
@@ -277,7 +313,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -331,7 +367,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -347,6 +383,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9E7V52UM47;
 				INFOPLIST_FILE = "RSSNewsApp/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -365,6 +402,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9E7V52UM47;
 				INFOPLIST_FILE = "RSSNewsApp/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

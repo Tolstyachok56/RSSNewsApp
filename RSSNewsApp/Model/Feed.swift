@@ -1,5 +1,5 @@
 //
-//  RSSResource.swift
+//  Feed.swift
 //  RSSNewsApp
 //
 //  Created by Виктория Бадисова on 27.06.2018.
@@ -8,14 +8,16 @@
 
 import Foundation
 
-class RSSResource {
+class Feed {
     
     let url: URL
     let channelTitle: String
+    let pubDateFormat: String
     
-    init(url: URL, channelTitle: String) {
+    init(url: URL, channelTitle: String, pubDateFormat: String) {
         self.url = url
         self.channelTitle = channelTitle
+        self.pubDateFormat = pubDateFormat
     }
     
 }

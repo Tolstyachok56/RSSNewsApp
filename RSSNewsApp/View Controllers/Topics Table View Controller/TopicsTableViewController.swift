@@ -11,24 +11,27 @@ import UIKit
 class TopicsTableViewController: UITableViewController {
     
     //MARK: - Properties
-
-    var parcedData: [Dictionary<String, String>] = []
-
-    //MARK: -
-
-    let rssResources: [RSSResource] = [
-        RSSResource(url: URL(string: "https://lifehacker.com/rss")!, channelTitle: "Lifehacker"),
-        RSSResource(url: URL(string: "http://feeds.feedburner.com/TechCrunch/")!, channelTitle: "TechCrunch")
+    
+    let rssFeeds: [Feed] = [
+        Feed(url: URL(string: "https://lifehacker.com/rss")!, channelTitle: "Lifehacker", pubDateFormat: "EEE, d MMM yyyy HH:mm:ss zzz"),
+        Feed(url: URL(string: "http://feeds.feedburner.com/TechCrunch/")!, channelTitle: "TechCrunch", pubDateFormat: "EEE, d MMM yyyy HH:mm:ss Z")
     ]
+    
+    var parsedData: [FeedItem] = []
+    
+    var sortedParsedData: [FeedItem] {
+        return parsedData//.sorted { $0.pubDate! > $1.pubDate! }
+    }
     
     //MARK: - View life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        DispatchQueue.global(qos: .utility).async {
-            for resource in self.rssResources {
-                let rssParcer = RSSParser(resource: resource)
+        title = "RSSNewsApp"
+        for feed in self.rssFeeds {
+            DispatchQueue.global(qos: .utility).async {
+                let rssParcer = FeedParser(feed: feed)
                 rssParcer.delegate = self
                 rssParcer.startParsing()
             }
@@ -43,13 +46,14 @@ class TopicsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return parcedData.count
+        return sortedParsedData.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TopicTableViewCell", for: indexPath)
-        let currentData = parcedData[indexPath.row]
-        cell.textLabel?.text = currentData["title"]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TopicTableViewCell", for: indexPath) as! TopicTableViewCell
+        
+        cell.item = sortedParsedData[indexPath.row]
+        
         return cell
     }
     
@@ -61,25 +65,27 @@ class TopicsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let link = parcedData[indexPath.row]["link"]
-        let url = URL(string: link!)
+        let currentData = sortedParsedData[indexPath.row]
+        let url = URL(string: currentData.link!)
         
         UIApplication.shared.open(url!, options: [:], completionHandler: nil)
     }
-    
-    
 
 }
 
 //MARK: - RSSParserDelegate methods
 
-extension TopicsTableViewController: RSSParserDelegate {
-
-    func parsingWasFinished(_ parcer: RSSParser) {
-        parcedData += parcer.parcedData
+extension TopicsTableViewController: FeedParserDelegate {
+    
+    func itemParsingWasFinished(_ parser: FeedParser, item: FeedItem) {
         DispatchQueue.main.async {
+            self.parsedData.append(item)
             self.tableView.reloadData()
         }
+    }
+
+    func parsingWasFinished(_ parser: FeedParser) {
+        print("Parsing \(parser.feed.channelTitle) was finished.")
     }
 
 }
