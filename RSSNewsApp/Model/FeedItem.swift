@@ -10,12 +10,18 @@ import Foundation
 
 class FeedItem {
     
+    //MARK: - Properties
+    
     var feed: Feed
+    
+    //MARK: -
     
     var title: String?
     var link: String?
     var pubDateString: String?
     var description: String?
+    
+    //MARK: -
     
     var pubDate: Date? {
         guard let dateString = pubDateString else { return nil }
@@ -28,6 +34,8 @@ class FeedItem {
         
         return pubDate
     }
+    
+    //MARK: -
     
     var imageLink: String? {
         guard let description = description as NSString? else { return nil }
@@ -47,6 +55,8 @@ class FeedItem {
         
         return imageLink
     }
+    
+    //MARK: - Initialization
     
     init(feed: Feed, title: String?, link: String?, pubDateString: String?, description: String?) {
         self.feed = feed

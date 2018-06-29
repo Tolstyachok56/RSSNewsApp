@@ -17,6 +17,8 @@ class TopicsTableViewController: UITableViewController {
         Feed(url: URL(string: "http://feeds.feedburner.com/TechCrunch/")!, channelTitle: "TechCrunch", pubDateFormat: "EEE, d MMM yyyy HH:mm:ss Z")
     ]
     
+    //MARK: -
+    
     private var parsedData: [FeedItem] = []
     
     //MARK: - View life cycle

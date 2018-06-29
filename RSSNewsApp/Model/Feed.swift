@@ -10,9 +10,13 @@ import Foundation
 
 class Feed {
     
+    //MARK: - Properties
+    
     let url: URL
     let channelTitle: String
     let pubDateFormat: String
+    
+    //MARK: - Initialization
     
     init(url: URL, channelTitle: String, pubDateFormat: String) {
         self.url = url
