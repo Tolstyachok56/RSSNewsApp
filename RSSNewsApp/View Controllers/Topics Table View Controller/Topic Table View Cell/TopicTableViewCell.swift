@@ -14,6 +14,7 @@ class TopicTableViewCell: UITableViewCell {
 
     @IBOutlet var topicImageView: UIImageView!
     @IBOutlet var topicLabel: UILabel!
+    @IBOutlet var pubDateLabel: UILabel!
     
     var item: FeedItem? {
         didSet {
@@ -28,6 +29,12 @@ class TopicTableViewCell: UITableViewCell {
                 let imageURL = URL(string: imageLink)
                 self.topicImageView.setImage(from: imageURL!, withPlaceholder: UIImage(named: "imagePlaceholder"))
             }
+            
+            //pubDate
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM d, yyyy HH:mm"
+            self.pubDateLabel.text = dateFormatter.string(from: (item?.pubDate)!)
+            
         }
     }
     

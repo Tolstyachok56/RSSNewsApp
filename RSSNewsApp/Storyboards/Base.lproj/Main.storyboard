@@ -38,16 +38,26 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MVv-oF-OL0">
+                                            <rect key="frame" x="334" y="1" width="31" height="15"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="Sm5-Ng-LHz" firstAttribute="top" relation="greaterThanOrEqual" secondItem="MVv-oF-OL0" secondAttribute="bottom" constant="5" id="4xO-KJ-0DP"/>
                                         <constraint firstAttribute="trailing" secondItem="Sm5-Ng-LHz" secondAttribute="trailing" constant="10" id="Hwt-hD-xir"/>
                                         <constraint firstItem="n3g-Mv-pDS" firstAttribute="leading" secondItem="Luj-fp-bic" secondAttribute="leading" constant="1" id="Ph5-QH-fuu"/>
+                                        <constraint firstItem="MVv-oF-OL0" firstAttribute="top" secondItem="Luj-fp-bic" secondAttribute="top" constant="1" id="YTi-rg-29X"/>
                                         <constraint firstItem="Sm5-Ng-LHz" firstAttribute="leading" secondItem="n3g-Mv-pDS" secondAttribute="trailing" constant="10" id="Ztv-NY-e9k"/>
                                         <constraint firstItem="Sm5-Ng-LHz" firstAttribute="centerY" secondItem="Luj-fp-bic" secondAttribute="centerY" id="cU9-KT-ReY"/>
                                         <constraint firstItem="n3g-Mv-pDS" firstAttribute="top" secondItem="Luj-fp-bic" secondAttribute="top" constant="1" id="dSL-7l-Lpm"/>
+                                        <constraint firstAttribute="trailing" secondItem="MVv-oF-OL0" secondAttribute="trailing" constant="10" id="nJ8-w2-ez1"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="pubDateLabel" destination="MVv-oF-OL0" id="IOQ-FL-tkN"/>
                                     <outlet property="topicImageView" destination="n3g-Mv-pDS" id="vdP-K8-8B0"/>
                                     <outlet property="topicLabel" destination="Sm5-Ng-LHz" id="Tnu-B0-P0n"/>
                                 </connections>

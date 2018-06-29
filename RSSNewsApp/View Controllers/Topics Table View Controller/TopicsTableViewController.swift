@@ -20,7 +20,7 @@ class TopicsTableViewController: UITableViewController {
     var parsedData: [FeedItem] = []
     
     var sortedParsedData: [FeedItem] {
-        return parsedData//.sorted { $0.pubDate! > $1.pubDate! }
+        return parsedData//.sorted { $0.pubDate!.compare($1.pubDate!) == .orderedDescending }
     }
     
     //MARK: - View life cycle
@@ -29,12 +29,17 @@ class TopicsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         title = "RSSNewsApp"
-        for feed in self.rssFeeds {
-            DispatchQueue.global(qos: .utility).async {
-                let rssParcer = FeedParser(feed: feed)
-                rssParcer.delegate = self
-                rssParcer.startParsing()
-            }
+//        for feed in self.rssFeeds {
+//            DispatchQueue.global(qos: .utility).async {
+//                let rssParcer = FeedParser(feed: feed)
+//                rssParcer.delegate = self
+//                rssParcer.startParsing()
+//            }
+//        }
+        DispatchQueue.global(qos: .utility).async {
+            let rssParser = FeedParser(feeds: self.rssFeeds)
+            rssParser?.delegate = self
+            rssParser?.startParsing()
         }
         
     }
@@ -78,14 +83,20 @@ class TopicsTableViewController: UITableViewController {
 extension TopicsTableViewController: FeedParserDelegate {
     
     func itemParsingWasFinished(_ parser: FeedParser, item: FeedItem) {
-        DispatchQueue.main.async {
-            self.parsedData.append(item)
-            self.tableView.reloadData()
-        }
+//        DispatchQueue.main.async {
+//            self.parsedData.append(item)
+//            self.tableView.beginUpdates()
+//            self.tableView.insertRows(at: [IndexPath(row: self.parsedData.count - 1, section: 0)], with: .automatic)
+//            self.tableView.endUpdates()
+//        }
     }
 
     func parsingWasFinished(_ parser: FeedParser) {
         print("Parsing \(parser.feed.channelTitle) was finished.")
+        DispatchQueue.main.async {
+            self.parsedData += parser.parsedData
+            self.tableView.reloadData()
+        }
     }
 
 }
