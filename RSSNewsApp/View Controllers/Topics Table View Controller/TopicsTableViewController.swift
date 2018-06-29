@@ -12,16 +12,12 @@ class TopicsTableViewController: UITableViewController {
     
     //MARK: - Properties
     
-    let rssFeeds: [Feed] = [
+    private let rssFeeds: [Feed] = [
         Feed(url: URL(string: "https://lifehacker.com/rss")!, channelTitle: "Lifehacker", pubDateFormat: "EEE, d MMM yyyy HH:mm:ss zzz"),
         Feed(url: URL(string: "http://feeds.feedburner.com/TechCrunch/")!, channelTitle: "TechCrunch", pubDateFormat: "EEE, d MMM yyyy HH:mm:ss Z")
     ]
     
-    var parsedData: [FeedItem] = []
-    
-    var sortedParsedData: [FeedItem] {
-        return parsedData//.sorted { $0.pubDate!.compare($1.pubDate!) == .orderedDescending }
-    }
+    private var parsedData: [FeedItem] = []
     
     //MARK: - View life cycle
 
@@ -29,19 +25,21 @@ class TopicsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         title = "RSSNewsApp"
-//        for feed in self.rssFeeds {
-//            DispatchQueue.global(qos: .utility).async {
-//                let rssParcer = FeedParser(feed: feed)
-//                rssParcer.delegate = self
-//                rssParcer.startParsing()
-//            }
-//        }
-        DispatchQueue.global(qos: .utility).async {
-            let rssParser = FeedParser(feeds: self.rssFeeds)
-            rssParser?.delegate = self
-            rssParser?.startParsing()
-        }
         
+        parseAllFeeds()
+    }
+    
+    //MARK: - Parsing
+    
+    private func parseAllFeeds() {
+        parsedData = []
+        for feed in self.rssFeeds {
+            DispatchQueue.global(qos: .utility).async {
+                let rssParcer = FeedParser(feed: feed)
+                rssParcer.delegate = self
+                rssParcer.startParsing()
+            }
+        }
     }
 
     //MARK: - UITableViewDataSource methods
@@ -51,13 +49,13 @@ class TopicsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sortedParsedData.count
+        return parsedData.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TopicTableViewCell", for: indexPath) as! TopicTableViewCell
         
-        cell.item = sortedParsedData[indexPath.row]
+        cell.item = parsedData[indexPath.row]
         
         return cell
     }
@@ -70,7 +68,7 @@ class TopicsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let currentData = sortedParsedData[indexPath.row]
+        let currentData = parsedData[indexPath.row]
         let url = URL(string: currentData.link!)
         
         UIApplication.shared.open(url!, options: [:], completionHandler: nil)
@@ -82,21 +80,44 @@ class TopicsTableViewController: UITableViewController {
 
 extension TopicsTableViewController: FeedParserDelegate {
     
-//    func itemParsingWasFinished(_ parser: FeedParser, item: FeedItem) {
-//        DispatchQueue.main.async {
-//            self.parsedData.append(item)
-//            self.tableView.beginUpdates()
-//            self.tableView.insertRows(at: [IndexPath(row: self.parsedData.count - 1, section: 0)], with: .automatic)
-//            self.tableView.endUpdates()
-//        }
-//    }
+    func itemParsingWasFinished(_ parser: FeedParser, item: FeedItem) {
+        
+        DispatchQueue.main.async {
+            
+            let indexPath = self.indexPathInParsedData(of: item)
+            
+            self.tableView.beginUpdates()
+            self.tableView.insertRows(at: [indexPath], with: .automatic)
+            self.tableView.endUpdates()
+            
+        }
+    }
 
     func parsingWasFinished(_ parser: FeedParser) {
         print("Parsing \(parser.feed.channelTitle) was finished.")
-        DispatchQueue.main.async {
-            self.parsedData += parser.parsedData
-            self.tableView.reloadData()
+    }
+    
+    // Helper method
+    
+    private func indexPathInParsedData(of item: FeedItem) -> IndexPath {
+        
+        var i = 0
+        
+        if !self.parsedData.isEmpty {
+            var x = self.parsedData[0]
+            while item.pubDate! < x.pubDate! {
+                i += 1
+                if i < self.parsedData.count {
+                    x = self.parsedData[i]
+                } else {
+                    break
+                }
+            }
         }
+        
+        self.parsedData.insert(item, at: i)
+        
+        return IndexPath(row: i, section: 0)
     }
 
 }

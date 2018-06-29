@@ -10,8 +10,7 @@ import Foundation
 
 protocol FeedParserDelegate {
     func parsingWasFinished(_ parser: FeedParser)
-    
-    //func itemParsingWasFinished(_ parser: FeedParser, item: FeedItem)
+    func itemParsingWasFinished(_ parser: FeedParser, item: FeedItem)
 }
 
 class FeedParser: NSObject {
@@ -29,40 +28,21 @@ class FeedParser: NSObject {
     
     //MARK: -
     
-    var feeds: [Feed]
     var feed: Feed!
-    
-    private var parsingCount: Int = 0
     
     //MARK: - Initialization
     
-//    init(feed: Feed) {
-//        self.feed = feed
-//        super.init()
-//    }
-    
-    init?(feeds: [Feed]) {
-        if feeds.isEmpty {
-            return nil
-        } else {
-            self.feeds = feeds
-            super.init()
-            
-        }
+    init(feed: Feed) {
+        self.feed = feed
+        super.init()
     }
     
     //MARK: - Methods
     
     func startParsing() {
-//        let parcer = XMLParser(contentsOf: self.feed.url)
-//        parcer?.delegate = self
-//        parcer?.parse()
-        for feed in feeds {
-            self.feed = feed
-            let parser = XMLParser(contentsOf: feed.url)
-            parser?.delegate = self
-            parser?.parse()
-        }
+        let parcer = XMLParser(contentsOf: self.feed.url)
+        parcer?.delegate = self
+        parcer?.parse()
     }
     
 }
@@ -96,18 +76,14 @@ extension FeedParser: XMLParserDelegate {
             if currentData.count == 4 {
                 let feedItem = FeedItem(feed: feed!, dictionary: currentData)
                 parsedData.append(feedItem)
-                //delegate?.itemParsingWasFinished(self, item: feedItem)
+                delegate?.itemParsingWasFinished(self, item: feedItem)
                 currentData = [:]
             }
         }
     }
     
     func parserDidEndDocument(_ parser: XMLParser) {
-        parsingCount += 1
-        if parsingCount == feeds.count {
-            parsedData.sort { $0.pubDate!.compare($1.pubDate!) == .orderedDescending }
-            self.delegate?.parsingWasFinished(self)
-        }
+        self.delegate?.parsingWasFinished(self)
     }
     
     func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
