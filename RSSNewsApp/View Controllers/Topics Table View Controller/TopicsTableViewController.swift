@@ -82,14 +82,14 @@ class TopicsTableViewController: UITableViewController {
 
 extension TopicsTableViewController: FeedParserDelegate {
     
-    func itemParsingWasFinished(_ parser: FeedParser, item: FeedItem) {
+//    func itemParsingWasFinished(_ parser: FeedParser, item: FeedItem) {
 //        DispatchQueue.main.async {
 //            self.parsedData.append(item)
 //            self.tableView.beginUpdates()
 //            self.tableView.insertRows(at: [IndexPath(row: self.parsedData.count - 1, section: 0)], with: .automatic)
 //            self.tableView.endUpdates()
 //        }
-    }
+//    }
 
     func parsingWasFinished(_ parser: FeedParser) {
         print("Parsing \(parser.feed.channelTitle) was finished.")

@@ -11,7 +11,7 @@ import Foundation
 protocol FeedParserDelegate {
     func parsingWasFinished(_ parser: FeedParser)
     
-    func itemParsingWasFinished(_ parser: FeedParser, item: FeedItem)
+    //func itemParsingWasFinished(_ parser: FeedParser, item: FeedItem)
 }
 
 class FeedParser: NSObject {
@@ -29,11 +29,10 @@ class FeedParser: NSObject {
     
     //MARK: -
     
+    var feeds: [Feed]
     var feed: Feed!
     
-    var feeds: [Feed]
-    
-    var parsingCount: Int = 0
+    private var parsingCount: Int = 0
     
     //MARK: - Initialization
     
@@ -97,7 +96,7 @@ extension FeedParser: XMLParserDelegate {
             if currentData.count == 4 {
                 let feedItem = FeedItem(feed: feed!, dictionary: currentData)
                 parsedData.append(feedItem)
-                delegate?.itemParsingWasFinished(self, item: feedItem)
+                //delegate?.itemParsingWasFinished(self, item: feedItem)
                 currentData = [:]
             }
         }
