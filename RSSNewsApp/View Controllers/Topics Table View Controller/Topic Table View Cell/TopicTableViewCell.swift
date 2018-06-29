@@ -32,7 +32,8 @@ class TopicTableViewCell: UITableViewCell {
             
             //pubDate
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MMM d, yyyy HH:mm"
+            dateFormatter.dateStyle = .medium
+            dateFormatter.timeStyle = .short
             self.pubDateLabel.text = dateFormatter.string(from: (item?.pubDate)!)
             
         }
