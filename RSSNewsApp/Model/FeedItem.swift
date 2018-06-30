@@ -21,6 +21,8 @@ class FeedItem {
     var pubDateString: String?
     var description: String?
     
+    var isFavorite: Bool = false
+    
     //MARK: -
     
     var pubDate: Date? {

@@ -55,6 +55,7 @@ class TopicsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("DataSource call: \(Date())")
         let cell = tableView.dequeueReusableCell(withIdentifier: "TopicTableViewCell", for: indexPath) as! TopicTableViewCell
         
         cell.item = parsedData[indexPath.row]
@@ -83,10 +84,11 @@ class TopicsTableViewController: UITableViewController {
 extension TopicsTableViewController: FeedParserDelegate {
     
     func itemParsingWasFinished(_ parser: FeedParser, item: FeedItem) {
-        
+        Thread.sleep(forTimeInterval: 0.1)
         DispatchQueue.main.async {
             
             let indexPath = self.indexPathInParsedData(of: item)
+            print("Item process time: \(Date())")
             
             self.tableView.beginUpdates()
             self.tableView.insertRows(at: [indexPath], with: .automatic)

@@ -15,8 +15,8 @@ class TopicTableViewCell: UITableViewCell {
     @IBOutlet var topicImageView: UIImageView!
     @IBOutlet var topicLabel: UILabel!
     @IBOutlet var pubDateLabel: UILabel!
-    
-    //MARK: - 
+    @IBOutlet var favoriteLabel: UILabel!
+    //MARK: -
     
     var item: FeedItem? {
         didSet {
@@ -38,6 +38,11 @@ class TopicTableViewCell: UITableViewCell {
             dateFormatter.timeStyle = .short
             self.pubDateLabel.text = dateFormatter.string(from: (item?.pubDate)!)
             
+            //favorite
+            
+            if let isFavorite = item?.isFavorite {
+                self.favoriteLabel.isHidden = !isFavorite
+            }
         }
     }
     
