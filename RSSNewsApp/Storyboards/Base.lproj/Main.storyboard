@@ -71,7 +71,7 @@
                                     <outlet property="pubDateLabel" destination="MVv-oF-OL0" id="IOQ-FL-tkN"/>
                                     <outlet property="topicImageView" destination="n3g-Mv-pDS" id="vdP-K8-8B0"/>
                                     <outlet property="topicLabel" destination="Sm5-Ng-LHz" id="Tnu-B0-P0n"/>
-                                    <segue destination="XF3-fK-odg" kind="show" id="46T-ZS-73w"/>
+                                    <segue destination="XF3-fK-odg" kind="show" identifier="Item" id="46T-ZS-73w"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -86,16 +86,16 @@
             </objects>
             <point key="canvasLocation" x="1362" y="-313"/>
         </scene>
-        <!--View Controller-->
+        <!--Topic View Controller-->
         <scene sceneID="eYG-0M-tLu">
             <objects>
-                <viewController id="XF3-fK-odg" sceneMemberID="viewController">
+                <viewController id="XF3-fK-odg" customClass="TopicViewController" customModule="RSSNewsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5CM-Pf-g0p">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="F4p-Ch-FzR">
-                                <rect key="frame" x="10" y="74" width="355" height="293"/>
+                                <rect key="frame" x="10" y="74" width="355" height="333"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="8zO-dK-cP3">
                                         <rect key="frame" x="0.0" y="0.0" width="355" height="222.5"/>
@@ -106,16 +106,22 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="10l-AS-bsw">
-                                        <rect key="frame" x="0.0" y="263" width="355" height="30"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="10l-AS-bsw">
+                                        <rect key="frame" x="0.0" y="263" width="355" height="70"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JyA-zl-ThB">
-                                                <rect key="frame" x="0.0" y="0.0" width="177.5" height="30"/>
+                                                <rect key="frame" x="123" y="0.0" width="109" height="30"/>
                                                 <state key="normal" title="Add to favorites"/>
+                                                <connections>
+                                                    <action selector="favoritePressed:" destination="XF3-fK-odg" eventType="touchUpInside" id="HnA-Gh-Ah5"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vzi-eA-sOR">
-                                                <rect key="frame" x="177.5" y="0.0" width="177.5" height="30"/>
+                                                <rect key="frame" x="121" y="40" width="113" height="30"/>
                                                 <state key="normal" title="Open in browser"/>
+                                                <connections>
+                                                    <action selector="openInBrowser:" destination="XF3-fK-odg" eventType="touchUpInside" id="mXK-BF-N3D"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -131,6 +137,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="eIW-h2-HEj"/>
                     </view>
+                    <connections>
+                        <outlet property="favoriteButton" destination="JyA-zl-ThB" id="ktm-Uh-Xu9"/>
+                        <outlet property="imageView" destination="8zO-dK-cP3" id="fxf-kt-jNq"/>
+                        <outlet property="titleLabel" destination="OiN-u5-ltY" id="rtm-vS-X3f"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8AA-dN-vX9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -139,7 +150,6 @@
         <!--Navigation Controller-->
         <scene sceneID="IM4-Ng-bxR">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ghV-9D-c6A" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nd0-Ss-JE8" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="3po-bg-HHI">
@@ -151,6 +161,7 @@
                         <segue destination="NHV-Ps-SnA" kind="relationship" relationship="rootViewController" id="JTd-1m-miD"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ghV-9D-c6A" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="437.60000000000002" y="-313.49325337331339"/>
         </scene>

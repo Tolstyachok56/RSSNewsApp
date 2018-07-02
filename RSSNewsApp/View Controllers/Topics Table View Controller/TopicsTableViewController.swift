@@ -10,12 +10,18 @@ import UIKit
 
 class TopicsTableViewController: UITableViewController {
     
+    //MARK: - Segue
+    
+    private enum Segue {
+        static let Item = "Item"
+    }
+    
     //MARK: - Properties
     
     private let rssFeeds: [Feed] = [
-        Feed(url: URL(string: "https://lifehacker.com/rss")!, channelTitle: "Lifehacker", pubDateFormat: "EEE, d MMM yyyy HH:mm:ss zzz"),
-        Feed(url: URL(string: "http://feeds.feedburner.com/TechCrunch/")!, channelTitle: "TechCrunch", pubDateFormat: "EEE, d MMM yyyy HH:mm:ss Z")
-    ]
+        Feed(url: URL(string: "https://lifehacker.com/rss")!, channelTitle: "Lifehacker", pubDateFormat: "EEE, d MMM yyyy HH:mm:ss zzz")]/*,
+        Feed(url: URL(string: "http://feeds.feedburner.com/TechCrunch/")!, channelTitle: "TechCrunch", pubDateFormat: "EEE, dd MMM yyyy HH:mm:ss Z")
+    ]*/
     
     //MARK: -
     
@@ -31,6 +37,12 @@ class TopicsTableViewController: UITableViewController {
         parseAllFeeds()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
+    }
+    
     //MARK: - Parsing
     
     private func parseAllFeeds() {
@@ -41,6 +53,21 @@ class TopicsTableViewController: UITableViewController {
                 rssParcer.delegate = self
                 rssParcer.startParsing()
             }
+        }
+    }
+    
+    //MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let identifier = segue.identifier else { return }
+        
+        switch identifier {
+        case Segue.Item:
+            guard let destination = segue.destination as? TopicViewController else { return }
+            guard let cell = sender as? TopicTableViewCell else { return }
+            destination.item = cell.item
+        default:
+            fatalError("Unexpected segue identifier")
         }
     }
 
@@ -71,10 +98,6 @@ class TopicsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let currentData = parsedData[indexPath.row]
-        let url = URL(string: currentData.link!)
-        
-        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
     }
 
 }

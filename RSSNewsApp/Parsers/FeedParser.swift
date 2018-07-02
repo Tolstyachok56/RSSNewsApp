@@ -74,6 +74,7 @@ extension FeedParser: XMLParserDelegate {
             foundCharacters = ""
             
             if currentData.count == 4 {
+                print(currentData)
                 let feedItem = FeedItem(feed: feed!, dictionary: currentData)
                 parsedData.append(feedItem)
                 delegate?.itemParsingWasFinished(self, item: feedItem)
