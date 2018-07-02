@@ -18,23 +18,34 @@ class TopicsTableViewController: UITableViewController {
     
     //MARK: - Properties
     
-    private let rssFeeds: [Feed] = [
+    @IBOutlet var segmentedControl: UISegmentedControl!
+    
+    //MARK: -
+    
+    private let feeds: [Feed] = [
         Feed(url: URL(string: "https://lifehacker.com/rss")!, channelTitle: "Lifehacker", pubDateFormat: "EEE, d MMM yyyy HH:mm:ss zzz"),
         Feed(url: URL(string: "http://feeds.feedburner.com/TechCrunch/")!, channelTitle: "TechCrunch", pubDateFormat: "EEE, dd MMM yyyy HH:mm:ss Z")
     ]
     
     //MARK: -
     
-    private var parsedData: [FeedItem] = []
+    var parsedItems: [FeedItem] = []
+    
+    var favoriteItems: [FeedItem] {
+        return parsedItems.filter { $0.isFavorite }
+    }
+    
+    //MARK: -
+    
+    var topicsDataSource = TopicsDataSource()
     
     //MARK: - View life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "RSSNewsApp"
-        
-        parseAllFeeds()
+        setupDataSource()
+        parseFeeds()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,15 +54,37 @@ class TopicsTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    //MARK: - View methods
+    
+    private func setupDataSource() {
+        updateDataSource()
+    }
+    
+    private func updateDataSource() {
+        tableView.dataSource = topicsDataSource
+    }
+    
+    //MARK: - Actions
+    
+    @IBAction func dataSourceToggle(_ sender: UISegmentedControl) {
+        let index = sender.selectedSegmentIndex
+
+//        if index == 0 {
+//            topicsDataSource.items = parsedItems
+//        } else if index == 1 {
+//            topicsDataSource.items = favoriteItems
+//        }
+    }
+    
     //MARK: - Parsing
     
-    private func parseAllFeeds() {
-        parsedData = []
-        for feed in self.rssFeeds {
+    private func parseFeeds() {
+        parsedItems = []
+        for feed in self.feeds {
             DispatchQueue.global(qos: .utility).async {
-                let rssParcer = FeedParser(feed: feed)
-                rssParcer.delegate = self
-                rssParcer.startParsing()
+                let feedParcer = FeedParser(feed: feed)
+                feedParcer.delegate = self
+                feedParcer.startParsing()
             }
         }
     }
@@ -70,31 +103,12 @@ class TopicsTableViewController: UITableViewController {
             fatalError("Unexpected segue identifier")
         }
     }
-
-    //MARK: - UITableViewDataSource methods
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return parsedData.count
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("DataSource call: \(Date())")
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TopicTableViewCell", for: indexPath) as! TopicTableViewCell
-        
-        cell.item = parsedData[indexPath.row]
-        
-        return cell
-    }
+    
+    //MARK: - UITableViewDelegate methods
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
-    
-    //MARK: - UITableViewDelegate methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -108,15 +122,16 @@ extension TopicsTableViewController: FeedParserDelegate {
     
     func itemParsingWasFinished(_ parser: FeedParser, item: FeedItem) {
         Thread.sleep(forTimeInterval: 0.1)
+        
         DispatchQueue.main.async {
-            
             let indexPath = self.indexPathInParsedData(of: item)
-            print("Item process time: \(Date())")
+            
+            self.parsedItems.insert(item, at: indexPath.row)
+            self.topicsDataSource.items = self.parsedItems
             
             self.tableView.beginUpdates()
             self.tableView.insertRows(at: [indexPath], with: .automatic)
             self.tableView.endUpdates()
-            
         }
     }
 
@@ -124,25 +139,23 @@ extension TopicsTableViewController: FeedParserDelegate {
         print("Parsing \(parser.feed.channelTitle) was finished.")
     }
     
-    // Helper method
+    //MARK: -  Helper methods
     
     private func indexPathInParsedData(of item: FeedItem) -> IndexPath {
         
         var i = 0
         
-        if !self.parsedData.isEmpty {
-            var x = self.parsedData[0]
+        if !self.parsedItems.isEmpty {
+            var x = self.parsedItems[0]
             while item.pubDate! < x.pubDate! {
                 i += 1
-                if i < self.parsedData.count {
-                    x = self.parsedData[i]
+                if i < self.parsedItems.count {
+                    x = self.parsedItems[i]
                 } else {
                     break
                 }
             }
         }
-        
-        self.parsedData.insert(item, at: i)
         
         return IndexPath(row: i, section: 0)
     }

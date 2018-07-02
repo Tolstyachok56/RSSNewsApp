@@ -76,11 +76,26 @@
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="NHV-Ps-SnA" id="hl9-nN-jH5"/>
                             <outlet property="delegate" destination="NHV-Ps-SnA" id="Xyw-zI-SE1"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="bgj-Qc-2ni"/>
+                    <navigationItem key="navigationItem" id="bgj-Qc-2ni">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="QxY-3Y-mnJ">
+                            <rect key="frame" x="114" y="7" width="147" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="RSSNews"/>
+                                <segment title="Favorites"/>
+                            </segments>
+                            <connections>
+                                <action selector="dataSourceToggle:" destination="NHV-Ps-SnA" eventType="valueChanged" id="Jpb-gb-6Vc"/>
+                            </connections>
+                        </segmentedControl>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="segmentedControl" destination="QxY-3Y-mnJ" id="WiW-tR-AGz"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fl9-Qb-mfQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

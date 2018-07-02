@@ -11,6 +11,7 @@
 		04579BF820E51BA40049E325 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04579BF720E51BA40049E325 /* FeedItem.swift */; };
 		04579BFC20E541500049E325 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04579BFB20E541500049E325 /* UIImageView.swift */; };
 		04579C0820EA53F00049E325 /* TopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04579C0720EA53F00049E325 /* TopicViewController.swift */; };
+		04579C0B20EA6D820049E325 /* TopicsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04579C0A20EA6D820049E325 /* TopicsDataSource.swift */; };
 		04F90E9620E3E86E00CDE216 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F90E9520E3E86E00CDE216 /* AppDelegate.swift */; };
 		04F90E9B20E3E86E00CDE216 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04F90E9920E3E86E00CDE216 /* Main.storyboard */; };
 		04F90E9D20E3E86F00CDE216 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04F90E9C20E3E86F00CDE216 /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 		04579BF720E51BA40049E325 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 		04579BFB20E541500049E325 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		04579C0720EA53F00049E325 /* TopicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicViewController.swift; sourceTree = "<group>"; };
+		04579C0A20EA6D820049E325 /* TopicsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsDataSource.swift; sourceTree = "<group>"; };
 		04F90E9220E3E86E00CDE216 /* RSSNewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSSNewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04F90E9520E3E86E00CDE216 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04F90E9A20E3E86E00CDE216 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -80,6 +82,14 @@
 			path = "Topic View Controller";
 			sourceTree = "<group>";
 		};
+		04579C0920EA6D4A0049E325 /* Topics Data Source */ = {
+			isa = PBXGroup;
+			children = (
+				04579C0A20EA6D820049E325 /* TopicsDataSource.swift */,
+			);
+			path = "Topics Data Source";
+			sourceTree = "<group>";
+		};
 		04F90E8920E3E86E00CDE216 = {
 			isa = PBXGroup;
 			children = (
@@ -100,8 +110,8 @@
 			isa = PBXGroup;
 			children = (
 				04F90EA820E3E88200CDE216 /* Application Delegate */,
-				04F90EAC20E3E8F800CDE216 /* Parsers */,
 				04579BF920E51BB20049E325 /* Model */,
+				04F90EAC20E3E8F800CDE216 /* Parsers */,
 				04F90EA720E3E88000CDE216 /* View Controllers */,
 				04F90EAA20E3E8CD00CDE216 /* Storyboards */,
 				04579BFA20E5413E0049E325 /* Extensions */,
@@ -165,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				04F90EB420E3F36A00CDE216 /* TopicsTableViewController.swift */,
+				04579C0920EA6D4A0049E325 /* Topics Data Source */,
 				04579BF420E4EC070049E325 /* Topic Table View Cell */,
 			);
 			path = "Topics Table View Controller";
@@ -245,6 +256,7 @@
 				04F90EB020E3E9C300CDE216 /* Feed.swift in Sources */,
 				04579C0820EA53F00049E325 /* TopicViewController.swift in Sources */,
 				04579BFC20E541500049E325 /* UIImageView.swift in Sources */,
+				04579C0B20EA6D820049E325 /* TopicsDataSource.swift in Sources */,
 				04579BF820E51BA40049E325 /* FeedItem.swift in Sources */,
 				04F90EAE20E3E92200CDE216 /* FeedParser.swift in Sources */,
 				04F90E9620E3E86E00CDE216 /* AppDelegate.swift in Sources */,
