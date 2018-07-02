@@ -56,7 +56,7 @@ extension FeedParser: XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        if (currentElement == "title" && string != feed?.channelTitle) || currentElement == "link" || currentElement == "pubDate" || currentElement == "description" {
+        if elementIsRight(currentElement, characters: string) {
             foundCharacters += string
         } else {
             foundCharacters = ""
@@ -64,7 +64,8 @@ extension FeedParser: XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if !foundCharacters.isEmpty {
+        if elementIsRight(currentElement, characters: foundCharacters) && !foundCharacters.isEmpty {
+            
             if elementName == "link" {
                 foundCharacters = foundCharacters.trimmingCharacters(in: .whitespacesAndNewlines)
             }
@@ -74,7 +75,6 @@ extension FeedParser: XMLParserDelegate {
             foundCharacters = ""
             
             if currentData.count == 4 {
-                print(currentData)
                 let feedItem = FeedItem(feed: feed!, dictionary: currentData)
                 parsedData.append(feedItem)
                 delegate?.itemParsingWasFinished(self, item: feedItem)
@@ -93,6 +93,15 @@ extension FeedParser: XMLParserDelegate {
     
     func parser(_ parser: XMLParser, validationErrorOccurred validationError: Error) {
         print(validationError.localizedDescription)
+    }
+    
+    //MARK: - Helper methods
+    
+    private func elementIsRight(_ element: String, characters: String) -> Bool {
+        return (currentElement == "title" && characters != feed?.channelTitle) ||
+            currentElement == "link" ||
+            currentElement == "pubDate" ||
+            currentElement == "description"
     }
     
 }

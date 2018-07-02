@@ -19,9 +19,9 @@ class TopicsTableViewController: UITableViewController {
     //MARK: - Properties
     
     private let rssFeeds: [Feed] = [
-        Feed(url: URL(string: "https://lifehacker.com/rss")!, channelTitle: "Lifehacker", pubDateFormat: "EEE, d MMM yyyy HH:mm:ss zzz")]/*,
+        Feed(url: URL(string: "https://lifehacker.com/rss")!, channelTitle: "Lifehacker", pubDateFormat: "EEE, d MMM yyyy HH:mm:ss zzz"),
         Feed(url: URL(string: "http://feeds.feedburner.com/TechCrunch/")!, channelTitle: "TechCrunch", pubDateFormat: "EEE, dd MMM yyyy HH:mm:ss Z")
-    ]*/
+    ]
     
     //MARK: -
     
