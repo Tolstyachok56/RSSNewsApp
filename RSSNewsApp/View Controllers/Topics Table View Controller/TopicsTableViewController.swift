@@ -42,7 +42,8 @@ class TopicsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupDataSource()
+        tableView.dataSource = topicsDataSource
+        
         parseFeeds()
     }
     
@@ -50,16 +51,6 @@ class TopicsTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         tableView.reloadData()
-    }
-    
-    //MARK: - View methods
-    
-    private func setupDataSource() {
-        updateDataSource()
-    }
-    
-    private func updateDataSource() {
-        tableView.dataSource = topicsDataSource
     }
     
     //MARK: - Actions
@@ -74,7 +65,9 @@ class TopicsTableViewController: UITableViewController {
             topicsDataSource.items = favoriteItems
         }
         tableView.reloadData()
-        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        if topicsDataSource.items.count > 0 {
+            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
     }
     
     //MARK: - Parsing

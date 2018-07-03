@@ -15,6 +15,7 @@ class TopicViewController: UIViewController {
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var favoriteButton: UIButton!
+    @IBOutlet var favoriteLabel: UILabel!
     
     //MARK: -
     
@@ -34,6 +35,7 @@ class TopicViewController: UIViewController {
         setupImageView()
         setupTitleLabel()
         setupFavoriteButton()
+        setupFavoriteLabel()
     }
     
     private func setupImageView() {
@@ -52,6 +54,15 @@ class TopicViewController: UIViewController {
         updateFavoriteButton()
     }
     
+    private func setupFavoriteLabel() {
+        updateFavoriteLabel()
+    }
+    
+    private func updateView() {
+        updateFavoriteButton()
+        updateFavoriteLabel()
+    }
+    
     private func updateFavoriteButton() {
         if let itemIsFavorite = item?.isFavorite, itemIsFavorite == true {
             favoriteButton.setTitle("Remove from favorites", for: .normal)
@@ -59,12 +70,19 @@ class TopicViewController: UIViewController {
             favoriteButton.setTitle("Add to favorites", for: .normal)
         }
     }
+    
+    private func updateFavoriteLabel() {
+        if let itemIsFavorite = item?.isFavorite {
+            favoriteLabel.isHidden = !itemIsFavorite
+        }
+    }
+    
     //MARK: - Actions
     
     @IBAction func favoritePressed(_ sender: UIButton) {
         guard let itemIsFavorite = item?.isFavorite else { return }
         item?.isFavorite = !itemIsFavorite
-        updateFavoriteButton()
+        updateView()
     }
     
     @IBAction func openInBrowser(_ sender: UIButton) {
