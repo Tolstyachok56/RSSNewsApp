@@ -27,13 +27,11 @@ class TopicsTableViewController: UITableViewController {
         Feed(url: URL(string: "http://feeds.feedburner.com/TechCrunch/")!, channelTitle: "TechCrunch", pubDateFormat: "EEE, dd MMM yyyy HH:mm:ss Z")
     ]
     
+    private var parsedFeedsCount = 0
+    
     //MARK: -
     
     var parsedItems: [FeedItem] = []
-    
-    var favoriteItems: [FeedItem] {
-        return parsedItems.filter { $0.isFavorite }
-    }
     
     //MARK: -
     
@@ -69,17 +67,21 @@ class TopicsTableViewController: UITableViewController {
     @IBAction func dataSourceToggle(_ sender: UISegmentedControl) {
         let index = sender.selectedSegmentIndex
 
-//        if index == 0 {
-//            topicsDataSource.items = parsedItems
-//        } else if index == 1 {
-//            topicsDataSource.items = favoriteItems
-//        }
+        if index == 0 {
+            topicsDataSource.items = parsedItems
+        } else if index == 1 {
+            let favoriteItems = parsedItems.filter { $0.isFavorite }
+            topicsDataSource.items = favoriteItems
+        }
+        tableView.reloadData()
+        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
     
     //MARK: - Parsing
     
     private func parseFeeds() {
         parsedItems = []
+        segmentedControl.isEnabled = false
         for feed in self.feeds {
             DispatchQueue.global(qos: .utility).async {
                 let feedParcer = FeedParser(feed: feed)
@@ -137,6 +139,15 @@ extension TopicsTableViewController: FeedParserDelegate {
 
     func parsingWasFinished(_ parser: FeedParser) {
         print("Parsing \(parser.feed.channelTitle) was finished.")
+        parsedFeedsCount += 1
+        
+        if parsedFeedsCount == feeds.count {
+            print("Parsing was finished.")
+            DispatchQueue.main.async {
+                self.segmentedControl.isEnabled = true
+            }
+            parsedFeedsCount = 0
+        }
     }
     
     //MARK: -  Helper methods
