@@ -50,24 +50,37 @@ class TopicsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        tableView.reloadData()
+        updateDataSource()
+        updateTableView()
     }
     
-    //MARK: - Actions
+    //MARK: - Data source methods
     
-    @IBAction func dataSourceToggle(_ sender: UISegmentedControl) {
-        let index = sender.selectedSegmentIndex
-
+    private func updateDataSource() {
+        let index = segmentedControl.selectedSegmentIndex
+        
         if index == 0 {
             topicsDataSource.items = parsedItems
         } else if index == 1 {
             let favoriteItems = parsedItems.filter { $0.isFavorite }
             topicsDataSource.items = favoriteItems
         }
+    }
+    
+    //MARK: - View methods
+    
+    private func updateTableView() {
         tableView.reloadData()
         if topicsDataSource.items.count > 0 {
             tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         }
+    }
+    
+    //MARK: - Actions
+    
+    @IBAction func dataSourceToggle(_ sender: UISegmentedControl) {
+        updateDataSource()
+        updateTableView()
     }
     
     //MARK: - Parsing
