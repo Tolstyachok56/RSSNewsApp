@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class FavoritesTableViewController: UITableViewController {
     
@@ -23,6 +24,28 @@ class FavoritesTableViewController: UITableViewController {
     // MARK: -
     
     var topicDataSource = TopicsDataSource()
+    
+    // MARK: -
+    
+    var managedObjectContext: NSManagedObjectContext?
+    
+    private lazy var fetchedResultsController: NSFetchedResultsController<FavoriteItem> = {
+        
+        guard let managedObjectContext = self.managedObjectContext else {
+            fatalError("No managed object context found")
+        }
+        let fetchRequest: NSFetchRequest<FavoriteItem> = FavoriteItem.fetchRequest()
+        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(FavoriteItem.pubDate), ascending: false)]
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                  managedObjectContext: managedObjectContext,
+                                                                  sectionNameKeyPath: nil,
+                                                                  cacheName: nil)
+        fetchedResultsController.delegate = self
+        
+        return fetchedResultsController
+    }()
     
     // MARK: - View life cycle
 
@@ -71,4 +94,42 @@ class FavoritesTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
+}
+
+//MARK: - NSFetchedResultsControllerDelegate methods
+
+extension FavoritesTableViewController: NSFetchedResultsControllerDelegate  {
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            if let indexPath = newIndexPath {
+                tableView.insertRows(at: [indexPath], with: .automatic)
+            }
+        case .delete:
+            if let indexPath = indexPath {
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+        case .update:
+            if let indexPath = indexPath, let cell = tableView.cellForRow(at: indexPath) as? TopicTableViewCell {
+                cell.item = anObject as! FeedItem
+            }
+        case .move:
+            if let indexPath = indexPath {
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+            if let newIndexPath = newIndexPath {
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
+        }
+    }
+    
 }

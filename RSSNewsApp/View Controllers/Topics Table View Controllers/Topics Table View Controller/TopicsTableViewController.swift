@@ -33,12 +33,16 @@ class TopicsTableViewController: UITableViewController {
     
     private var topicsDataSource = TopicsDataSource()
     
+    //MARK: -
+    
+    private var coreDataManager = CoreDataManager(modelName: "RSSNewsApp")
+    
     //MARK: - View life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupDataSource()
+        setupFavoriteTabVC()
         tableView.dataSource = topicsDataSource
         parseFeeds()
     }
@@ -49,13 +53,14 @@ class TopicsTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    //MARK: - Data source methods
+    //MARK: - Favorite tab methods
     
-    private func setupDataSource() {
+    private func setupFavoriteTabVC() {
         let tabBarViewControllers = self.tabBarController?.viewControllers
         let favoriteNavigationVC = tabBarViewControllers![1] as! UINavigationController
         let favoriteVC = favoriteNavigationVC.viewControllers[0] as! FavoritesTableViewController
         favoriteVC.parsedData = self.parsedData
+        favoriteVC.managedObjectContext = self.coreDataManager.mainManagedObjectContext
     }
     
 
