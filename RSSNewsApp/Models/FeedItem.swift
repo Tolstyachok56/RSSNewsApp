@@ -20,6 +20,7 @@ class FeedItem {
     var link: String?
     var pubDateString: String?
     var description: String?
+    var guid: String?
     
     var isFavorite: Bool = false
     
@@ -60,12 +61,13 @@ class FeedItem {
     
     //MARK: - Initialization
     
-    init(feed: Feed, title: String?, link: String?, pubDateString: String?, description: String?) {
+    init(feed: Feed, title: String?, link: String?, pubDateString: String?, description: String?, guid: String?) {
         self.feed = feed
         self.title = title
         self.link = link
         self.pubDateString = pubDateString
         self.description = description
+        self.guid = guid
     }
     
     convenience init(feed: Feed, dictionary: Dictionary<String, String>) {
@@ -73,7 +75,8 @@ class FeedItem {
                   title: dictionary["title"],
                   link: dictionary["link"],
                   pubDateString: dictionary["pubDate"],
-                  description: dictionary["description"]
+                  description: dictionary["description"],
+                  guid: dictionary["guid"]
         )
     }
     

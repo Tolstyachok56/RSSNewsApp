@@ -12,6 +12,8 @@
 		04579BFC20E541500049E325 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04579BFB20E541500049E325 /* UIImageView.swift */; };
 		04579C0820EA53F00049E325 /* TopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04579C0720EA53F00049E325 /* TopicViewController.swift */; };
 		04579C0B20EA6D820049E325 /* TopicsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04579C0A20EA6D820049E325 /* TopicsDataSource.swift */; };
+		04579C1720ECBCCB0049E325 /* FavoritesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04579C1620ECBCCB0049E325 /* FavoritesTableViewController.swift */; };
+		04C8F65D20ECD00700A8B7B4 /* ParsedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C8F65C20ECD00700A8B7B4 /* ParsedData.swift */; };
 		04F90E9620E3E86E00CDE216 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F90E9520E3E86E00CDE216 /* AppDelegate.swift */; };
 		04F90E9B20E3E86E00CDE216 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04F90E9920E3E86E00CDE216 /* Main.storyboard */; };
 		04F90E9D20E3E86F00CDE216 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04F90E9C20E3E86F00CDE216 /* Assets.xcassets */; };
@@ -27,6 +29,8 @@
 		04579BFB20E541500049E325 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		04579C0720EA53F00049E325 /* TopicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicViewController.swift; sourceTree = "<group>"; };
 		04579C0A20EA6D820049E325 /* TopicsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsDataSource.swift; sourceTree = "<group>"; };
+		04579C1620ECBCCB0049E325 /* FavoritesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewController.swift; sourceTree = "<group>"; };
+		04C8F65C20ECD00700A8B7B4 /* ParsedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsedData.swift; sourceTree = "<group>"; };
 		04F90E9220E3E86E00CDE216 /* RSSNewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSSNewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04F90E9520E3E86E00CDE216 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04F90E9A20E3E86E00CDE216 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -57,13 +61,14 @@
 			path = "Topic Table View Cell";
 			sourceTree = "<group>";
 		};
-		04579BF920E51BB20049E325 /* Model */ = {
+		04579BF920E51BB20049E325 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				04F90EAF20E3E9C300CDE216 /* Feed.swift */,
+				04C8F65C20ECD00700A8B7B4 /* ParsedData.swift */,
 				04579BF720E51BA40049E325 /* FeedItem.swift */,
+				04F90EAF20E3E9C300CDE216 /* Feed.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		04579BFA20E5413E0049E325 /* Extensions */ = {
@@ -90,6 +95,22 @@
 			path = "Topics Data Source";
 			sourceTree = "<group>";
 		};
+		04579C1520ECBCA60049E325 /* Favorites Table View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				04579C1620ECBCCB0049E325 /* FavoritesTableViewController.swift */,
+			);
+			path = "Favorites Table View Controller";
+			sourceTree = "<group>";
+		};
+		04C8F65E20ECD7BF00A8B7B4 /* Topics Table View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				04F90EB420E3F36A00CDE216 /* TopicsTableViewController.swift */,
+			);
+			path = "Topics Table View Controller";
+			sourceTree = "<group>";
+		};
 		04F90E8920E3E86E00CDE216 = {
 			isa = PBXGroup;
 			children = (
@@ -110,7 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				04F90EA820E3E88200CDE216 /* Application Delegate */,
-				04579BF920E51BB20049E325 /* Model */,
+				04579BF920E51BB20049E325 /* Models */,
 				04F90EAC20E3E8F800CDE216 /* Parsers */,
 				04F90EA720E3E88000CDE216 /* View Controllers */,
 				04F90EAA20E3E8CD00CDE216 /* Storyboards */,
@@ -124,7 +145,7 @@
 		04F90EA720E3E88000CDE216 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				04F90EB320E3F35800CDE216 /* Topics Table View Controller */,
+				04F90EB320E3F35800CDE216 /* Topics Table View Controllers */,
 				04579C0620EA34790049E325 /* Topic View Controller */,
 			);
 			path = "View Controllers";
@@ -171,14 +192,15 @@
 			path = Parsers;
 			sourceTree = "<group>";
 		};
-		04F90EB320E3F35800CDE216 /* Topics Table View Controller */ = {
+		04F90EB320E3F35800CDE216 /* Topics Table View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				04F90EB420E3F36A00CDE216 /* TopicsTableViewController.swift */,
+				04C8F65E20ECD7BF00A8B7B4 /* Topics Table View Controller */,
+				04579C1520ECBCA60049E325 /* Favorites Table View Controller */,
 				04579C0920EA6D4A0049E325 /* Topics Data Source */,
 				04579BF420E4EC070049E325 /* Topic Table View Cell */,
 			);
-			path = "Topics Table View Controller";
+			path = "Topics Table View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -255,7 +277,9 @@
 				04579BF620E4EC230049E325 /* TopicTableViewCell.swift in Sources */,
 				04F90EB020E3E9C300CDE216 /* Feed.swift in Sources */,
 				04579C0820EA53F00049E325 /* TopicViewController.swift in Sources */,
+				04579C1720ECBCCB0049E325 /* FavoritesTableViewController.swift in Sources */,
 				04579BFC20E541500049E325 /* UIImageView.swift in Sources */,
+				04C8F65D20ECD00700A8B7B4 /* ParsedData.swift in Sources */,
 				04579C0B20EA6D820049E325 /* TopicsDataSource.swift in Sources */,
 				04579BF820E51BA40049E325 /* FeedItem.swift in Sources */,
 				04F90EAE20E3E92200CDE216 /* FeedParser.swift in Sources */,

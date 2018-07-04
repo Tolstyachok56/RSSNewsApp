@@ -16,78 +16,53 @@ class TopicsTableViewController: UITableViewController {
         static let Item = "Item"
     }
     
-    //MARK: - Properties
-    
-    @IBOutlet var segmentedControl: UISegmentedControl!
-    
-    //MARK: -
+    //MARK: - Feeds list
     
     private let feeds: [Feed] = [
         Feed(url: URL(string: "https://lifehacker.com/rss")!, channelTitle: "Lifehacker", pubDateFormat: "EEE, d MMM yyyy HH:mm:ss zzz"),
         Feed(url: URL(string: "http://feeds.feedburner.com/TechCrunch/")!, channelTitle: "TechCrunch", pubDateFormat: "EEE, dd MMM yyyy HH:mm:ss Z")
     ]
     
+    //MARK: - Properties
+    
+    var parsedData = ParsedData()
+    
     private var parsedFeedsCount = 0
     
     //MARK: -
     
-    var parsedItems: [FeedItem] = []
-    
-    //MARK: -
-    
-    var topicsDataSource = TopicsDataSource()
+    private var topicsDataSource = TopicsDataSource()
     
     //MARK: - View life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupDataSource()
         tableView.dataSource = topicsDataSource
-        
         parseFeeds()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        updateDataSource()
-        updateTableView()
+
+        tableView.reloadData()
     }
     
     //MARK: - Data source methods
     
-    private func updateDataSource() {
-        let index = segmentedControl.selectedSegmentIndex
-        
-        if index == 0 {
-            topicsDataSource.items = parsedItems
-        } else if index == 1 {
-            let favoriteItems = parsedItems.filter { $0.isFavorite }
-            topicsDataSource.items = favoriteItems
-        }
+    private func setupDataSource() {
+        let tabBarViewControllers = self.tabBarController?.viewControllers
+        let favoriteNavigationVC = tabBarViewControllers![1] as! UINavigationController
+        let favoriteVC = favoriteNavigationVC.viewControllers[0] as! FavoritesTableViewController
+        favoriteVC.parsedData = self.parsedData
     }
     
-    //MARK: - View methods
-    
-    private func updateTableView() {
-        tableView.reloadData()
-        if topicsDataSource.items.count > 0 {
-            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        }
-    }
-    
-    //MARK: - Actions
-    
-    @IBAction func dataSourceToggle(_ sender: UISegmentedControl) {
-        updateDataSource()
-        updateTableView()
-    }
-    
+
     //MARK: - Parsing
     
     private func parseFeeds() {
-        parsedItems = []
-        segmentedControl.isEnabled = false
+        parsedData.items = []
         for feed in self.feeds {
             DispatchQueue.global(qos: .utility).async {
                 let feedParcer = FeedParser(feed: feed)
@@ -134,8 +109,8 @@ extension TopicsTableViewController: FeedParserDelegate {
         DispatchQueue.main.async {
             let indexPath = self.indexPathInParsedData(of: item)
             
-            self.parsedItems.insert(item, at: indexPath.row)
-            self.topicsDataSource.items = self.parsedItems
+            self.parsedData.items.insert(item, at: indexPath.row)
+            self.topicsDataSource.items = self.parsedData.items
             
             self.tableView.beginUpdates()
             self.tableView.insertRows(at: [indexPath], with: .automatic)
@@ -149,9 +124,9 @@ extension TopicsTableViewController: FeedParserDelegate {
         
         if parsedFeedsCount == feeds.count {
             print("Parsing was finished.")
-            DispatchQueue.main.async {
-                self.segmentedControl.isEnabled = true
-            }
+            
+            //do something that has to be done after all feeds've been parsed
+            
             parsedFeedsCount = 0
         }
     }
@@ -162,12 +137,12 @@ extension TopicsTableViewController: FeedParserDelegate {
         
         var i = 0
         
-        if !self.parsedItems.isEmpty {
-            var x = self.parsedItems[0]
+        if !self.parsedData.items.isEmpty {
+            var x = self.parsedData.items[0]
             while item.pubDate! < x.pubDate! {
                 i += 1
-                if i < self.parsedItems.count {
-                    x = self.parsedItems[i]
+                if i < self.parsedData.items.count {
+                    x = self.parsedData.items[i]
                 } else {
                     break
                 }

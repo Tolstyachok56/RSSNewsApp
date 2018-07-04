@@ -74,7 +74,7 @@ extension FeedParser: XMLParserDelegate {
             
             foundCharacters = ""
             
-            if currentData.count == 4 {
+            if currentData.count == 5 {
                 let feedItem = FeedItem(feed: feed!, dictionary: currentData)
                 parsedData.append(feedItem)
                 delegate?.itemParsingWasFinished(self, item: feedItem)
@@ -101,7 +101,8 @@ extension FeedParser: XMLParserDelegate {
         return (currentElement == "title" && characters != feed?.channelTitle) ||
             currentElement == "link" ||
             currentElement == "pubDate" ||
-            currentElement == "description"
+            currentElement == "description" ||
+            currentElement == "guid"
     }
     
 }
