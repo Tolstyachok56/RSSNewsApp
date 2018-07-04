@@ -87,6 +87,7 @@ class TopicsTableViewController: UITableViewController {
             guard let destination = segue.destination as? TopicViewController else { return }
             guard let cell = sender as? TopicTableViewCell else { return }
             destination.item = cell.item
+            destination.managedObjectContext = self.coreDataManager.mainManagedObjectContext
         default:
             fatalError("Unexpected segue identifier")
         }

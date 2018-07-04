@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class TopicViewController: UIViewController {
     
@@ -20,6 +21,10 @@ class TopicViewController: UIViewController {
     //MARK: -
     
     var item: FeedItem?
+    
+    //MARK: -
+    
+    var managedObjectContext: NSManagedObjectContext?
     
     //MARK: - View life cycle
 
@@ -80,8 +85,20 @@ class TopicViewController: UIViewController {
     //MARK: - Actions
     
     @IBAction func favoritePressed(_ sender: UIButton) {
-        guard let itemIsFavorite = item?.isFavorite else { return }
+        let itemIsFavorite = (item?.isFavorite)!
         item?.isFavorite = !itemIsFavorite
+        
+        let favoriteItem = FavoriteItem(context: self.managedObjectContext!)
+        managedObjectContext?.performAndWait {
+            favoriteItem.title = item?.title
+            favoriteItem.url = NSURL(string: (item?.link)!)
+            favoriteItem.pubDate = item?.pubDate
+            favoriteItem.guid = item?.guid
+            if let imageLink = item?.imageLink {
+                favoriteItem.imageURL = NSURL(string: imageLink)
+            }
+        }
+        
         updateView()
     }
     

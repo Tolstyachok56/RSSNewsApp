@@ -23,19 +23,17 @@ class FavoritesTableViewController: UITableViewController {
     
     // MARK: -
     
-    var topicDataSource = TopicsDataSource()
+    var topicDataSource = FavoriteTopicsDataSource()
     
     // MARK: -
     
     var managedObjectContext: NSManagedObjectContext?
     
     private lazy var fetchedResultsController: NSFetchedResultsController<FavoriteItem> = {
-        
         guard let managedObjectContext = self.managedObjectContext else {
             fatalError("No managed object context found")
         }
         let fetchRequest: NSFetchRequest<FavoriteItem> = FavoriteItem.fetchRequest()
-        
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(FavoriteItem.pubDate), ascending: false)]
         
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
@@ -52,6 +50,7 @@ class FavoritesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        fetchFavoriteItems()
         updateDataSource()
         tableView.dataSource = topicDataSource
     }
@@ -63,10 +62,21 @@ class FavoritesTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    // MARK: - Fetching
+    
+    private func fetchFavoriteItems() {
+        do {
+            try self.fetchedResultsController.performFetch()
+        } catch let fetchError {
+            print("Unable to perform fetch")
+            print("\(fetchError): \(fetchError.localizedDescription)")
+        }
+    }
+    
     // MARK: - Data source methods
     
     private func updateDataSource() {
-        topicDataSource.items = (parsedData?.favoriteItems)!
+        topicDataSource.items = fetchedResultsController.fetchedObjects!
     }
 
     // MARK: - Navigation
@@ -79,6 +89,7 @@ class FavoritesTableViewController: UITableViewController {
             guard let destination = segue.destination as? TopicViewController else { return }
             guard let cell = sender as? TopicTableViewCell else { return }
             destination.item = cell.item
+            destination.managedObjectContext = self.managedObjectContext
         default:
             fatalError("Unexpected segue identifier")
         }
@@ -120,7 +131,7 @@ extension FavoritesTableViewController: NSFetchedResultsControllerDelegate  {
             }
         case .update:
             if let indexPath = indexPath, let cell = tableView.cellForRow(at: indexPath) as? TopicTableViewCell {
-                cell.item = anObject as! FeedItem
+                cell.item = anObject as? FeedItem
             }
         case .move:
             if let indexPath = indexPath {
